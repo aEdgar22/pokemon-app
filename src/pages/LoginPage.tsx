@@ -1,60 +1,115 @@
-import { useState } from 'react';
-import { HiEye, HiEyeOff } from "react-icons/hi";
-import useForm from '../hooks/useForm';
-import isEmailValid from '../utils/validateEmail';
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Button, Container, Stack, TextField, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
+import userData from "../user.data.json";
+import { useNavigate } from 'react-router-dom';
+
+interface IFromInputs {
+  email: string;
+  password: string;
+}
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(4).max(15).required(),
+});
 
 const LoginPage = () => {
-  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-  const { handleChange, values } = useForm({email:"", password:""});
-  const {email, password} = values
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordHidden(!isPasswordHidden);
-  }
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<IFromInputs>({
+    resolver: yupResolver(schema),
+  });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const formSubmitHandler: SubmitHandler<IFromInputs> = ({email, password}: IFromInputs) => {
+    const user = userData.users.find((user) => user.email === email && user.password === password);
+
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      alert('Email o contraseña incorrectos');
+    }
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  
   return (
-    <div>
-      <h1>login page</h1>
-      <form>
-        <input 
-          type="email"
-          placeholder='ingresa tu email' 
-          name='email'
-          value={email}
-          onChange={e => {
-            if (isEmailValid(e.target.value)) {
-              handleChange(e);
-            }
-          }}
-          required
-        />
-        <div style={{position: 'relative', border: "1px solid red", width: "20rem"}}>
-          <input 
-            type={isPasswordHidden ? 'password' : 'text'} 
-            placeholder='password' 
-            name='password'
-            value={password}
-            onChange={handleChange}
+    <Container
+      sx={{
+        my: 8,
+        /* mx: 4, */
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+   
+      }}
+    >
+      <h1>Login</h1>
+      <Stack
+        width="40%"
+        direction={"column"}
+        spacing={2}
+      >
+        <form onSubmit={handleSubmit(formSubmitHandler)}>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="email"
+                label="Email"
+                variant="outlined"
+                error={!!errors.email}
+                helperText={errors.email ? errors.email?.message : ""}
+                fullWidth
+                margin="normal"
+              />
+            )}
           />
-          <button 
-            type='button' 
-            onClick={togglePasswordVisibility} 
-            style={{
-              position: 'absolute',
-              top: '50%',
-              right: '10px',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            {isPasswordHidden ? <HiEyeOff /> : <HiEye />}
-          </button>
-        </div>
-      </form>
-    </div>
-  )
-}
+
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <TextField
+              {...field}
+              type={showPassword ? "text" : "password"}
+              label="Password"
+              variant="outlined"
+              error={!!errors.password}
+              helperText={errors.password ? errors.password?.message : ""}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClickShowPassword}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            )}
+          />
+          <Button type="submit" variant="outlined">Submit</Button>
+        </form>
+      </Stack>
+    </Container>
+  );
+};
 
 export default LoginPage;
