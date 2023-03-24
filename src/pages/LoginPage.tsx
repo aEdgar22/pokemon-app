@@ -1,11 +1,20 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Button, Container, Stack, TextField, IconButton, InputAdornment } from "@mui/material";
+import {
+  Button,
+  Container,
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userData from "../user.data.json";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/slices/userSlice";
 
 interface IFromInputs {
   email: string;
@@ -18,7 +27,6 @@ const schema = yup.object().shape({
 });
 
 const LoginPage = () => {
-
   const {
     handleSubmit,
     control,
@@ -29,14 +37,27 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
 
-  const formSubmitHandler: SubmitHandler<IFromInputs> = ({email, password}: IFromInputs) => {
-    const user = userData.users.find((user) => user.email === email && user.password === password);
+  const formSubmitHandler: SubmitHandler<IFromInputs> = ({
+    email,
+    password,
+  }: IFromInputs) => {
+    const user = userData.users.find(
+      (user) => user.email === email && user.password === password
+    );
 
     if (user) {
-      navigate('/dashboard');
+      const token = user.token;
+      localStorage.setItem("token", token);
+      dispatch(setUser({
+        id: user.id,
+        email: user.email,
+        name: user.name
+      }))
+      navigate("/dashboard");
     } else {
-      alert('Email o contraseña incorrectos');
+      alert("Email o contraseña incorrectos");
     }
   };
 
@@ -44,24 +65,24 @@ const LoginPage = () => {
     setShowPassword((prev) => !prev);
   };
 
-  
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/dashboard"); // Redirigir al dashboard si ya hay un token guardado
+    }
+  }, [navigate]);
   return (
     <Container
       sx={{
         my: 8,
-        /* mx: 4, */
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-   
       }}
     >
       <h1>Login</h1>
-      <Stack
-        width="40%"
-        direction={"column"}
-        spacing={2}
-      >
+      <Stack width="40%" direction={"column"} spacing={2}>
         <form onSubmit={handleSubmit(formSubmitHandler)}>
           <Controller
             name="email"
@@ -85,27 +106,29 @@ const LoginPage = () => {
             control={control}
             render={({ field }) => (
               <TextField
-              {...field}
-              type={showPassword ? "text" : "password"}
-              label="Password"
-              variant="outlined"
-              error={!!errors.password}
-              helperText={errors.password ? errors.password?.message : ""}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
+                {...field}
+                type={showPassword ? "text" : "password"}
+                label="Password"
+                variant="outlined"
+                error={!!errors.password}
+                helperText={errors.password ? errors.password?.message : ""}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleClickShowPassword}>
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             )}
           />
-          <Button type="submit" variant="outlined">Submit</Button>
+          <Button type="submit" variant="outlined">
+            Submit
+          </Button>
         </form>
       </Stack>
     </Container>
