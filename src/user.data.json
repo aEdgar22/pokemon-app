@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Edgar De Avila",
+      "email": "edgar@example.com",
+      "password": "123456",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlZGdhckBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2In0.H8hb8IeW9qbtM3K_jTEogWlvHoAXcLG1MG46-zUZpzg"
+    }
+  ]
+}

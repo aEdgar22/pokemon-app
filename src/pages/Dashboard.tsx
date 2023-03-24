@@ -1,10 +1,19 @@
-import React from 'react'
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {}
 
 const Dashboard = (props: Props) => {
+const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
+
   return (
-    <div>Dashboard</div>
+    <div>
+      <Button onClick={handleLogout}>Logout</Button>
+    </div>
   )
 }
 
