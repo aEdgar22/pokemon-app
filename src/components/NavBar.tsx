@@ -12,6 +12,9 @@ import MenuItem from "@mui/material/MenuItem";
 
 import CatchingPokemonRoundedIcon from "@mui/icons-material/CatchingPokemonRounded";
 import { useNavigate } from "react-router-dom";
+import { resetUser } from "../redux/slices/userSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { resetPokemon } from "../redux/slices/pokemonSlice";
 
 const settings = ["Account", "Logout"];
 
@@ -19,6 +22,7 @@ function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -30,6 +34,10 @@ function NavBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    dispatch(resetUser());
+    dispatch(resetPokemon());
+
     navigate("/");
   };
 
