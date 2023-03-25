@@ -13,8 +13,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import userData from "../../user.data.json";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/slices/userSlice";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -39,7 +37,6 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
 
   const formSubmitHandler: SubmitHandler<IFromInputs> = ({
     email,
@@ -53,11 +50,8 @@ const LoginPage = () => {
       const token = user.token;
       Swal.fire("Success", "Welcome back!", "success");
       localStorage.setItem("token", token);
-      dispatch(setUser({
-        id: user.id,
-        email: user.email,
-        name: user.name
-      }))
+      localStorage.setItem("user", JSON.stringify(user));
+
       navigate("/dashboard");
     } else {
       Swal.fire("Error", "Invalid email or password", "error");
@@ -67,7 +61,6 @@ const LoginPage = () => {
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
