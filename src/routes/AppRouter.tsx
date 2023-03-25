@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import Dashboard from "../pages/Dashboard";
+import LoginPage from "../pages/login/LoginPage";
+import Dashboard from "../pages/dasboard/Dashboard";
 import PrivateRoute from './PrivateRoute';
 
 type Props = {};
