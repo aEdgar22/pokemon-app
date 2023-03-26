@@ -1,3 +1,4 @@
+
 describe('Login', () => {
   beforeEach(() => {
     // Visitar la página de inicio de sesión antes de cada prueba
@@ -6,8 +7,8 @@ describe('Login', () => {
 
   it('allows a valid user to log in', () => {
     // Introducir las credenciales correctas en los campos de email y contraseña
-    cy.get('input[name="email"]').type('edgar@example.com');
-    cy.get('input[name="password"]').type('123456');
+    cy.get('input[name="email"]').type('ashketchum@example.com');
+    cy.get('input[name="password"]').type('PikachuFriend');
 
     // Hacer clic en el botón de enviar formulario
     cy.get('button[type="submit"]').click();
