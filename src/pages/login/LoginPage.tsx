@@ -8,14 +8,19 @@ import {
   TextField,
   IconButton,
   InputAdornment,
+  Box,
+  Typography,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff, Widgets } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import userData from "../../user.data.json";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-
+import pikachuGif from "../../assets/pikachu.gif";
+import { StyledLoginCard } from "./styledComponent/LoginStyled";
+import { ButtonLogin } from "./styledComponent/ButtonLogin";
+import { ImageStyled } from "../dasboard/pokecards/styledComponents/ImageStyled";
 interface IFromInputs {
   email: string;
   password: string;
@@ -69,65 +74,82 @@ const LoginPage = () => {
     }
   }, [navigate]);
   return (
-    <Container
+    <Box
+      display={"flex"}
+      columnGap={"2rem"}
+      width={"100%"}
+      justifyContent={"space-evenly"}
+      alignItems={"center"}
+      mt={"8rem"}
       sx={{
-        my: 8,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        
+        marginTop: {sm:"0"}
       }}
     >
-      <h1>Login</h1>
-      <Stack width="40%" direction={"column"} spacing={2}>
-        <form onSubmit={handleSubmit(formSubmitHandler)}>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="email"
-                label="Email"
-                variant="outlined"
-                error={!!errors.email}
-                helperText={errors.email ? errors.email?.message : ""}
-                fullWidth
-                margin="normal"
-              />
-            )}
-          />
+      <ImageStyled src={pikachuGif} alt="GIF animado" />
 
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type={showPassword ? "text" : "password"}
-                label="Password"
-                variant="outlined"
-                error={!!errors.password}
-                helperText={errors.password ? errors.password?.message : ""}
-                fullWidth
-                margin="normal"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleClickShowPassword}>
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
-          <Button type="submit" variant="outlined">
-            Submit
-          </Button>
-        </form>
-      </Stack>
-    </Container>
+      <StyledLoginCard>
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: "center",
+            color: "#232323c4",
+            fontFamily:"poppins"
+          }}
+        >
+          Welcome back!
+        </Typography>
+        <Stack width="80%" direction={"column"} spacing={2}>
+          <form onSubmit={handleSubmit(formSubmitHandler)}>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="email"
+                  label="Email"
+                  variant="outlined"
+                  error={!!errors.email}
+                  helperText={errors.email ? errors.email?.message : ""}
+                  fullWidth
+                  margin="normal"
+                />
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  variant="outlined"
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password?.message : ""}
+                  fullWidth
+                  margin="normal"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickShowPassword}>
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+            <ButtonLogin type="submit" variant="outlined">
+              SUBMIT
+            </ButtonLogin>
+          </form>
+        </Stack>
+      </StyledLoginCard>
+    </Box>
   );
 };
 
