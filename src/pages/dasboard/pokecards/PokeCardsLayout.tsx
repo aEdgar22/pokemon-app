@@ -7,7 +7,6 @@ import PokeCard from "./PokeCard";
 import { GridContainer } from "./styledComponents/GridContainerCards";
 import { IPokemons } from "../../../models/pokemons.model";
 import ButtonStyled from "./styledComponents/Button";
-import LazyLoad from "react-lazyload";
 import pikachuGif from "../../../assets/pikachu.gif";
 
 const PokeCardsLayout = () => {
@@ -75,14 +74,9 @@ const PokeCardsLayout = () => {
           <GridContainer>
             {pokemons.map((pokemon) => {
               return (
-                <LazyLoad
-                  key={pokemon.id}
-                  height={200}
-                  once
-                  placeholder={<h1>Cargando...</h1>}
-                >
-                  <PokeCard pokemon={pokemon} />
-                </LazyLoad>
+                
+                  <PokeCard key={pokemon.id} pokemon={pokemon} />
+                
               );
             })}
           </GridContainer>
