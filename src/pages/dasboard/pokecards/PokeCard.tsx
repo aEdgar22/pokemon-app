@@ -67,6 +67,7 @@ const PokeCard = ({ pokemon }: { pokemon: IPokemon }) => {
             cursor: "pointer",
             position: "relative",
           }}
+          data-cy="poke-card"
         >
           <Box
             sx={{
@@ -81,6 +82,7 @@ const PokeCard = ({ pokemon }: { pokemon: IPokemon }) => {
               borderRadius: "10px 10px  0 0 ",
               paddingBottom: "0.5rem",
             }}
+            data-cy="poke-card"
           >
             <Typography
               sx={{
@@ -96,26 +98,29 @@ const PokeCard = ({ pokemon }: { pokemon: IPokemon }) => {
                 paddingTop: "4px",
                 fontFamily: "Poppins",
               }}
+              data-cy="poke-card"
             >
               Weight: {weight}
             </Typography>
           </Box>
 
-          <Box p={2}>
+          <Box p={2} data-cy="poke-card">
             <Typography
               variant="h5"
               sx={{ fontWeight: "500", fontFamily: "Poppins" }}
+              data-cy="poke-card"
             >
               {name.toUpperCase()}
             </Typography>
 
-            <span>MOVES:</span>
-            <Stack direction="row" spacing={2}>
-              {moves.slice(0, 2).map((move) => (
+            <span  data-cy="moves" >MOVES:</span>
+            <Stack direction="row" spacing={2}  data-cy="poke-card">
+              {moves.slice(0, 2).map((move, index) => (
                 <Typography
-                  key={move.move.name}
+                  key={index}
                   variant="subtitle2"
                   sx={{ fontFamily: "Poppins" }}
+                  data-cy="poke-card"
                 >
                   # {move.move.name}{" "}
                 </Typography>
