@@ -1,26 +1,33 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getPokemons } from "../../../redux/thunks/pokemonThunk";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { Container } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import PokeCard from "./PokeCard";
 import { GridContainer } from "./styledComponents/GridContainerCards";
 import { IPokemons } from "../../../models/pokemons.model";
-type Props = {};
 
-const PokeCardsLayout = (props: Props) => {
+const PokeCardsLayout = () => {
   const dispatch = useAppDispatch();
-  const { pokemons } = useAppSelector((state): IPokemons => state.pokemons);
+  const { pokemons, isLoading } = useAppSelector(
+    (state): IPokemons => state.pokemons
+  );
+
+  const [page, setPage] = useState(0);
+
   useEffect(() => {
-    dispatch(getPokemons());
-  }, [dispatch]);
+    dispatch(getPokemons(page));
+  }, [dispatch, page]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   return (
     <Container
       maxWidth="xl"
       sx={{
-        border: "1px solid red",
-        height: "80vh",
+        height: "90vh",
         marginTop: "2rem",
         padding: "1rem",
       }}
@@ -30,7 +37,7 @@ const PokeCardsLayout = (props: Props) => {
         sx={{
           mr: 2,
           textAlign: "center",
-          fontFamily: "monospace",
+          fontFamily: "poppins",
           fontWeight: 700,
           letterSpacing: ".3rem",
           color: "inherit",
@@ -42,17 +49,29 @@ const PokeCardsLayout = (props: Props) => {
 
       <GridContainer>
         {pokemons.map((pokemon) => {
-          return (
-            <PokeCard key={pokemon.id} pokemon={pokemon}  />
-          );
+          return <PokeCard key={pokemon.id} pokemon={pokemon} />;
         })}
       </GridContainer>
 
-      {/*  {
-              pokemons.map((pokemon, index) => {
-                return <PokeCard key={index} pokemon={pokemon} />
-              })
-            } */}
+      <Button
+        variant="outlined"
+        color="primary"
+        sx={{ margin: "4rem" }}
+        disabled={isLoading || page === 0}
+        onClick={() => handlePageChange(page - 1)}
+      >
+       -1
+      </Button>
+        Page {page + 1}
+      <Button
+        variant="outlined"
+        color="primary"
+        sx={{ margin: "4rem" }}
+        disabled={isLoading}
+        onClick={() => handlePageChange(page + 1)}
+      >
+        +1
+      </Button>
     </Container>
   );
 };
