@@ -59,4 +59,4 @@ The emailtest for loged in app is:
     "ashketchum@example.com"
 And the password is:
     
-    "PikachuMyBestFriend"
+    "PikachuFriend"
