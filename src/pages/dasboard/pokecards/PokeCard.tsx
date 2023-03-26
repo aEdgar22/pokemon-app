@@ -109,14 +109,16 @@ const PokeCard = ({ pokemon }: { pokemon: IPokemon }) => {
               {name.toUpperCase()}
             </Typography>
 
-              <span>MOVES:</span>
+            <span>MOVES:</span>
             <Stack direction="row" spacing={2}>
-              {moves.slice(0, 2).map((move, index) => (
-                <>
-                <Typography variant="subtitle2"  sx={{ fontFamily: "Poppins" }} key={index}>
+              {moves.slice(0, 2).map((move) => (
+                <Typography
+                  key={move.move.name}
+                  variant="subtitle2"
+                  sx={{ fontFamily: "Poppins" }}
+                >
                   # {move.move.name}{" "}
                 </Typography>
-                </>
               ))}
             </Stack>
           </Box>
