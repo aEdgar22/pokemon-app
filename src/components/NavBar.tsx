@@ -17,7 +17,7 @@ import { resetPokemon } from "../redux/slices/pokemonSlice";
 import avatar from "../assets/avatar.jpg"
 
 
-const settings = ["Account", "Logout"];
+const settings = ["Home","Account", "Logout"];
 
 function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -45,9 +45,11 @@ function NavBar() {
   const handleNavMenu = (e: React.MouseEvent<HTMLSpanElement>) => {
     const currentText = e.currentTarget.innerText;
     if (currentText === "Account") {
-      console.log("Account");
+      navigate("/user")
     } else if (currentText === "Logout") {
       handleLogout();
+    }else if (currentText === "Home"){
+      navigate("/dashboard")
     }
   };
 
