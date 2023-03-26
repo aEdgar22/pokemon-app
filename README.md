@@ -18,7 +18,7 @@
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/aEdgar22/pokemon-app.git
 ```
 
 Go to the project directory
@@ -52,7 +52,7 @@ To run tests, run the following command
 
 ## Information for login
 
-The data for login in aplication is in file .json named "user.data.json".
+The data for loggin into the aplication is in file .json named "user.data.json".
 
 The emailtest for loged in app is:
     
