@@ -9,12 +9,13 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-
 import CatchingPokemonRoundedIcon from "@mui/icons-material/CatchingPokemonRounded";
 import { useNavigate } from "react-router-dom";
 import { resetUser } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { resetPokemon } from "../redux/slices/pokemonSlice";
+import avatar from "../assets/avatar.jpg"
+
 
 const settings = ["Account", "Logout"];
 
@@ -72,7 +73,7 @@ function NavBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "poppins",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -92,7 +93,7 @@ function NavBar() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
+              fontFamily: "poppins",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -105,7 +106,7 @@ function NavBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={avatar} />
               </IconButton>
             </Tooltip>
             <Menu
